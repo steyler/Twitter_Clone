@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @tweet.content %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @tweet.user.username %>
+</p>
+
+<% if @tweet.likes.where(user_id: current_user).present? %>
+  <%= form_with url: tweet_likes_path(@tweet), method: "delete" do |form| %>
+    <%= form.submit 'No me gusta' %>
+  <% end %>
+<% else %> 
+  <%= form_with url: tweet_likes_path(@tweet) do |form| %>
+    <%= form.submit 'Me gusta' %>
+  <% end %>
+<% end %>
+
+
+
+
+<%= link_to 'Edit', edit_tweet_path(@tweet) %> |
+<%= link_to 'Back', tweets_path %>

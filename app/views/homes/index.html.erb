@@ -1,0 +1,8 @@
+
+<% if user_signed_in? %>
+    <h1> Bienvenido: <%= current_user.username %> 
+    <br> 
+    <%= image_tag url_for(current_user.avatar), height:150, width:300 %> </h1>
+<% else %>
+    <h1> No esta logueado, desea loguearse? <%= link_to 'Iniciar Sesión', new_user_session_path %> </h1>
+<% end %>
