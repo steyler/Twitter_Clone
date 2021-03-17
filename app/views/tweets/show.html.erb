@@ -1,17 +1,24 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Content:</strong>
   <%= @tweet.content %>
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @tweet.user.username %>
+<% array_avatar = @tweet.likes %>
+<% array_avatar.each do |like| %>
+  <% user = User.find(like.user_id) %>
+  <%= image_tag url_for(user.avatar ), height:100, width:100 %> 
+<% end %>
 </p>
 
-<% if @tweet.likes.where(user_id: current_user).present? %>
-  <%= form_with url: tweet_likes_path(@tweet), method: "delete" do |form| %>
+<p>
+  <%= time_ago_in_words(@tweet.updated_at) %>
+</p>
+
+<% current_tweet = @tweet.likes.where(user_id: current_user) %>
+
+<% if current_tweet.present? %>
+  <%= form_with url: tweet_like_path(@tweet, current_tweet.first), method: :delete do |form| %>
     <%= form.submit 'No me gusta' %>
   <% end %>
 <% else %> 
@@ -19,6 +26,12 @@
     <%= form.submit 'Me gusta' %>
   <% end %>
 <% end %>
+
+
+<%= form_with url: tweet_rt_path(@tweet), method: :post do |form| %>
+  <%= form.submit 'Dar Retweet' %>
+<% end %>
+
 
 
 

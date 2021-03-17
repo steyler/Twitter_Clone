@@ -1,15 +1,18 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: %i[ index search ]
 
   # GET /tweets or /tweets.json
   def index
-    @tweets = Tweet.all
+    #@tweets = Tweet.page
+    @tweets = Tweet.page(params[:page]).limit(49) 
+    @tweet = Tweet.new
   end
 
   # GET /tweets/1 or /tweets/1.json
   def show
     # tweet.likes.where(user: current_user)
-    @tweet.likes.where(user: current_user)
+    # @tweet.likes.where(user: current_user)
   end
 
   # GET /tweets/new
@@ -17,9 +20,25 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
+  def search
+    if params[:search].blank?  
+      redirect_to(root_path, alert: "Empty field!") and return  
+    else  
+      @tweets = Tweet.where("content LIKE ?", "%" + params[:search] + "%")
+    end
+  end
+
+  def rt
+    @tweet.retweets.build(user_id: current_user, content: "")
+    if @tweet.save
+      redirect_to root_path
+    end
+  end
+  
   # GET /tweets/1/edit
   def edit
   end
+
 
   # POST /tweets or /tweets.json
   def create

@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :tweets do 
+    post 'rt', to: 'tweets#rt'
     resources :likes, only: [:create, :update, :destroy]
   end
+  get 'search', to: "tweets#search"
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'

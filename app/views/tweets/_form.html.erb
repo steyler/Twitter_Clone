@@ -11,13 +11,14 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :content %>
-    <%= form.text_area :content %>
+  <div class="form-group">
+    <div class="field">
+      <%= form.text_area :content, class:"form-control", placeholder:"Write your Tweet" %>
+    </div>
   </div>
 
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Write Tweet', class:"btn btn-primary btn-lg btn-block"  %>
   </div>
 <% end %>

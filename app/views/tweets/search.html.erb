@@ -1,14 +1,6 @@
 <div class="container">
-
-<% if user_signed_in? %>
-  <h1 class="text-center">Crear Tweet</h1>
-
-  <%= render 'form', tweet: @tweet %>
-<% end %>
-
-<h1 class="text-center">Tweets</h1>
-
-<% @tweets.each do |tweet| %>
+    <h1 class="text-center">Resultados de la Busqueda</h1>
+    <% @tweets.each do |tweet| %>
   <div class="card">
     <div class="row no-gutters">
       <div class="col-4">
@@ -28,8 +20,6 @@
             <%=tweet.likes.count%> 
           </strong>
           <%= link_to 'Mostrar Tweet', tweet , class:"btn btn-primary"%>
-          <%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-primary" %>
-          <%= link_to 'Destroy', tweet, class:"btn btn-danger",method: :delete, data: { confirm: 'Are you sure?' } %>
         </div>
       </div>
     </div>
@@ -41,18 +31,4 @@
   </div>
 <br>
 <% end %>
-
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center pagination-lg">
-    <li class="page-item ">
-      <%= link_to 'Preview', path_to_prev_page(@tweets), class:"page-link bg-primary text-white" %>
-    </li>
-
-    <li class="page-item ">
-      <%= link_to 'Next', path_to_next_page(@tweets), class:"page-link bg-primary text-white" %>
-    </li>
-  </ul>
-</nav>
-
 </div>
-

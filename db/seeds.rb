@@ -6,6 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 50.times do |a|
-    User.create(email: Faker::Internet.free_email, password: '123456', username: Faker::first_name )
-    Tweet.create()
+    Tweet.create(content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+    user_id: '7')
 end
