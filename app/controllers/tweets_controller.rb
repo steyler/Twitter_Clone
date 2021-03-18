@@ -7,11 +7,17 @@ class TweetsController < ApplicationController
   def index
     #@tweets = Tweet.page
     @tweet = Tweet.new
-    if params[:search].blank?  
-      # redirect_to(root_path, alert: "Empty field!") and return  
+    if(user_signed_in?)
+      tweets_friends = current_user.friends.pluck(:friend_id)
+          
+      if params[:search].blank?  
+        @tweets = Tweet.where(user_id: tweets_friends).page(params[:page]).limit(49).order("id DESC")  
+        # @tweets = Tweet.page(params[:page]).limit(49).order("id DESC") 
+      else 
+        @tweets = Tweet.where("content LIKE ?", "%" + params[:search] + "%").page(params[:page]).limit(49).order("id DESC") 
+      end
+    else 
       @tweets = Tweet.page(params[:page]).limit(49).order("id DESC") 
-    else  
-      @tweets = Tweet.where("content LIKE ?", "%" + params[:search] + "%").page(params[:page]).limit(49).order("id DESC") 
     end
   end
 
@@ -88,4 +94,8 @@ class TweetsController < ApplicationController
     def tweet_params
       params.require(:tweet).permit(:content)
     end
+end
+
+class Tweet
+  scope :tweet_friends, -> { where() }
 end

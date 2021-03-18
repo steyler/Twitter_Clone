@@ -2,6 +2,8 @@
   <p>
     <strong>Content:</strong>
     <%= @tweet.content %>
+    <%  user =  User.find(@tweet.user_id) %>
+    <%= user.email %>
     <br>
     
     <% if @tweet.retweet_id.present? %>
