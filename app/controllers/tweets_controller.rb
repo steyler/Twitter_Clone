@@ -2,10 +2,11 @@ class TweetsController < ApplicationController
   before_action :set_tweet, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: %i[ index search ]
 
+
   # GET /tweets or /tweets.json
   def index
     #@tweets = Tweet.page
-    @tweets = Tweet.page(params[:page]).limit(49) 
+    @tweets = Tweet.page(params[:page]).limit(49).order("id DESC") 
     @tweet = Tweet.new
   end
 
@@ -29,7 +30,10 @@ class TweetsController < ApplicationController
   end
 
   def rt
-    @tweet.retweets.build(user_id: current_user, content: "")
+    # byebug
+    @tweet = Tweet.find(params[:tweet_id])
+    @tweet.retweets.build(user_id: current_user.id, content: params[:content])
+    #byebug
     if @tweet.save
       redirect_to root_path
     end

@@ -9,14 +9,27 @@
 <h1 class="text-center">Tweets</h1>
 
 <% @tweets.each do |tweet| %>
-  <div class="card">
+  <div class="card mb-3" style="max-width: 1250px;">
     <div class="row no-gutters">
-      <div class="col-4">
-        <%= image_tag url_for(tweet.user.avatar ), height:160, width:300 %>
+      <div class="col-md-4">
+        <%= image_tag url_for(tweet.user.avatar ), class:"img-fluid" %>
       </div>
-      <div class="col-6">
+      <div class="col-md-8">
         <div class="card-body">
           <p class="card-text"> <%= tweet.content %> </p>
+
+          
+          <% if tweet.retweet_id.present? %>
+            <div class="card">
+              <% retweet = Tweet.find(tweet.retweet_id) %>
+              <% user = User.find(retweet.user_id) %>
+              <h6 class="card-header"> <%= user.username %> | Retweet </h6>
+              <div class="card-body">
+                <%= retweet.content %>
+              </div>
+            </div>
+          <% end %>
+          
           <br>
           <br>
           <% if tweet.likes.where(user_id: current_user).present? %>
@@ -24,9 +37,16 @@
           <% else %>
             <i class="far fa-heart"></i>
           <% end %>
-          <strong class="pr-5"> 
+          <strong> 
             <%=tweet.likes.count%> 
           </strong>
+
+          <i class="fas fa-retweet"></i>
+          <strong>
+            <%= tweet.retweets.count %>
+          </strong>
+          
+
           <%= link_to 'Mostrar Tweet', tweet , class:"btn btn-primary"%>
           <%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-primary" %>
           <%= link_to 'Destroy', tweet, class:"btn btn-danger",method: :delete, data: { confirm: 'Are you sure?' } %>
