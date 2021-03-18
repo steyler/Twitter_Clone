@@ -32,21 +32,25 @@
 
   <% current_tweet = @tweet.likes.where(user_id: current_user) %>
 
+  <div class="form-group">
   <% if current_tweet.present? %>
     <%= form_with url: tweet_like_path(@tweet, current_tweet.first), method: :delete do |form| %>
-      <%= form.submit 'No me gusta' %>
+      <%= form.submit 'No me gusta', class:"btn btn-primary" %>
     <% end %>
   <% else %> 
     <%= form_with url: tweet_likes_path(@tweet) do |form| %>
-      <%= form.submit 'Me gusta' %>
+      <%= form.submit 'Me gusta', class:"btn btn-primary" %>
     <% end %>
   <% end %>
+  </div>
 
-
-  <%= form_with url: tweet_rt_path(@tweet), method: :post do |form| %>
-    <%= form.text_field :content, class:"form-control" %>
-    <%= form.submit 'Dar Retweet' %>
-  <% end %>
+  <div class="form-group">
+    <%= form_with url: tweet_rt_path(@tweet), method: :post do |form| %>
+      <%= form.text_field :content, class:"form-control" %>
+      <br>
+      <%= form.submit 'Dar Retweet', class:"btn btn-primary" %>
+    <% end %>
+  </div>
 
   <%= link_to 'Edit', edit_tweet_path(@tweet) %> |
   <%= link_to 'Back', tweets_path %>

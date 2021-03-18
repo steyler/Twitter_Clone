@@ -6,8 +6,13 @@ class TweetsController < ApplicationController
   # GET /tweets or /tweets.json
   def index
     #@tweets = Tweet.page
-    @tweets = Tweet.page(params[:page]).limit(49).order("id DESC") 
     @tweet = Tweet.new
+    if params[:search].blank?  
+      # redirect_to(root_path, alert: "Empty field!") and return  
+      @tweets = Tweet.page(params[:page]).limit(49).order("id DESC") 
+    else  
+      @tweets = Tweet.where("content LIKE ?", "%" + params[:search] + "%").page(params[:page]).limit(49).order("id DESC") 
+    end
   end
 
   # GET /tweets/1 or /tweets/1.json
@@ -21,19 +26,11 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
-  def search
-    if params[:search].blank?  
-      redirect_to(root_path, alert: "Empty field!") and return  
-    else  
-      @tweets = Tweet.where("content LIKE ?", "%" + params[:search] + "%")
-    end
-  end
-
   def rt
-    # byebug
+    
     @tweet = Tweet.find(params[:tweet_id])
     @tweet.retweets.build(user_id: current_user.id, content: params[:content])
-    #byebug
+   
     if @tweet.save
       redirect_to root_path
     end
