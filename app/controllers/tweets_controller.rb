@@ -8,11 +8,11 @@ class TweetsController < ApplicationController
     #@tweets = Tweet.page
     @tweet = Tweet.new
     if(user_signed_in?)
-      tweets_friends = current_user.friends.pluck(:friend_id)
+      tweets_friends = current_user.friends.pluck(:friend_id, :user_id)
           
       if params[:search].blank?  
-        @tweets = Tweet.where(user_id: tweets_friends).page(params[:page]).limit(49).order("id DESC")  
-        # @tweets = Tweet.page(params[:page]).limit(49).order("id DESC") 
+        @tweets = Tweet.tweets_for_me(tweets_friends).page(params[:page]).limit(49).order("id DESC")
+        #@tweets = Tweet.where(user_id: current_user.id)
       else 
         @tweets = Tweet.where("content LIKE ?", "%" + params[:search] + "%").page(params[:page]).limit(49).order("id DESC") 
       end

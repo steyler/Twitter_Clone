@@ -14,6 +14,21 @@ class Tweet < ApplicationRecord
   has_many :retweets, class_name: "Tweet", foreign_key: "retweet_id"
   belongs_to :retweet, class_name: "Tweet", optional: true
 
+  scope :tweets_for_me, -> (tweets_friends) { where( user_id: tweets_friends) }  
+
   validates :content, presence: true
+
+  # Self hace referencia al lugar donde estamos situados
+  def content_with_hashtag
+    new_content = self.content.split(' ').map do |word|
+      
+      if word.include?('#')
+        "<a href='/?search=#{word}'>##{word}</a>"
+      else
+        word
+      end
+    end
+    new_content.join(' ').html_safe
+  end
 
 end

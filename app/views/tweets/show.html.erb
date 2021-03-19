@@ -1,7 +1,7 @@
 <div class="container">
   <p>
     <strong>Content:</strong>
-    <%= @tweet.content %>
+    <%= @tweet.content_with_hashtag %>
     <%  user =  User.find(@tweet.user_id) %>
     <%= user.email %>
     <br>
