@@ -23,7 +23,7 @@ class Tweet < ApplicationRecord
     new_content = self.content.split(' ').map do |word|
       
       if word.include?('#')
-        "<a href='/?search=#{word}'>##{word}</a>"
+        "<a href='/?search=#{word}'>#{word}</a>"
       else
         word
       end

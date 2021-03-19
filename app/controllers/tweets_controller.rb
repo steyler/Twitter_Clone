@@ -8,7 +8,7 @@ class TweetsController < ApplicationController
     #@tweets = Tweet.page
     @tweet = Tweet.new
     if(user_signed_in?)
-      tweets_friends = current_user.friends.pluck(:friend_id, :user_id)
+      tweets_friends = current_user.friends.pluck(:friend_id, current_user.id)
           
       if params[:search].blank?  
         @tweets = Tweet.tweets_for_me(tweets_friends).page(params[:page]).limit(49).order("id DESC")

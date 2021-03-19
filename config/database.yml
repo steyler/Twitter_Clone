@@ -24,6 +24,12 @@ default: &default
   username: josephm2425
   password: 1234
 
+production:
+  adapter: postgresql
+  database: twitter_app_production
+  pool: 5
+  timeout: 5000
+
 development:
   <<: *default
   database: twitter_app_development

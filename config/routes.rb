@@ -1,14 +1,15 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
-  }
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   resources :tweets do 
     post 'rt', to: 'tweets#rt'
     resources :likes, only: [:create, :update, :destroy]
   end
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
+ 
 
   
   root to: 'tweets#index'
